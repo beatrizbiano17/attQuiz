@@ -15,6 +15,8 @@ class _TelaAgendaState extends State<TelaAgenda> {
       appBar: AppBar(
         title: Text("Minha Agenda"),
       ),
+      ), // 
+      
       body: tarefas.isEmpty
           ? Center(
               child: Text(
