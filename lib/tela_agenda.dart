@@ -7,16 +7,21 @@ class TelaAgenda extends StatefulWidget {
 }
 
 class _TelaAgendaState extends State<TelaAgenda> {
-  List<String> tarefas = [];
+  List<Map<String, dynamic>> tarefas = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Minha Agenda"),
+        title: Text(
+          "Minha Agenda",
+          style: TextStyle(
+            fontFamily: 'LoveDays',
+            fontSize: 24,
+          ),
+        ),
       ),
-      ), // 
-      
+
       body: tarefas.isEmpty
           ? Center(
               child: Text(
@@ -29,11 +34,35 @@ class _TelaAgendaState extends State<TelaAgenda> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text(tarefas[index]),
+                    leading: Checkbox(
+                      value: tarefas[index]["concluida"],
+                      onChanged: (value) {
+                        setState(() {
+                          tarefas[index]["concluida"] = value;
+                        });
+                      },
+                    ),
+
+                    title: Text(
+                      tarefas[index]["titulo"],
+                      style: TextStyle(
+                        decoration: tarefas[index]["concluida"]
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                      ),
+                    ),
+
+                    //  MOSTRAR DATA
+                    subtitle: Text(
+                      tarefas[index]["data"] != null
+                          ? "${tarefas[index]["data"].day}/${tarefas[index]["data"].month}/${tarefas[index]["data"].year}"
+                          : "Sem data",
+                    ),
                   ),
                 );
               },
             ),
+
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
@@ -44,9 +73,14 @@ class _TelaAgendaState extends State<TelaAgenda> {
             ),
           );
 
-          if (novaTarefa != null && novaTarefa != "") {
+          // 
+          if (novaTarefa != null) {
             setState(() {
-              tarefas.add(novaTarefa);
+              tarefas.add({
+                "titulo": novaTarefa["titulo"],
+                "data": novaTarefa["data"],
+                "concluida": false
+              });
             });
           }
         },
