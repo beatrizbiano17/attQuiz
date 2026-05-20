@@ -15,10 +15,8 @@ class _TelaAgendaState extends State<TelaAgenda> {
       appBar: AppBar(
         title: Text(
           "Minha Agenda",
-          style: TextStyle(
-            fontFamily: 'LoveDays',
-            fontSize: 24,
-          ),
+    
+
         ),
       ),
 //mostra mensagem caso não tenha tarefa, caso contrário abre a lista de tarefas//
