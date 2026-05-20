@@ -21,7 +21,7 @@ class _TelaAgendaState extends State<TelaAgenda> {
           ),
         ),
       ),
-
+//mostra mensagem caso não tenha tarefa, caso contrário abre a lista de tarefas//
       body: tarefas.isEmpty
           ? Center(
               child: Text(
@@ -30,13 +30,17 @@ class _TelaAgendaState extends State<TelaAgenda> {
               ),
             )
           : ListView.builder(
+            //define quantos itens vai ter na tela//
               itemCount: tarefas.length,
+              //monta cada item da lista//
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
+            //marca a tarefa//
                     leading: Checkbox(
                       value: tarefas[index]["concluida"],
                       onChanged: (value) {
+            //atualiza a tela//
                         setState(() {
                           tarefas[index]["concluida"] = value;
                         });
@@ -52,8 +56,9 @@ class _TelaAgendaState extends State<TelaAgenda> {
                       ),
                     ),
 
-                    //  MOSTRAR DATA
+                //mostra a data//
                     subtitle: Text(
+                //verifca se tem data//
                       tarefas[index]["data"] != null
                           ? "${tarefas[index]["data"].day}/${tarefas[index]["data"].month}/${tarefas[index]["data"].year}"
                           : "Sem data",
@@ -62,18 +67,20 @@ class _TelaAgendaState extends State<TelaAgenda> {
                 );
               },
             ),
-
+        //botão de adicionar tarefa//
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        //permite usar o await que espera algo acontecer//
         onPressed: () async {
           final novaTarefa = await Navigator.push(
             context,
+        //como a nova tela vai abrir e qual tela vai abrir//
             MaterialPageRoute(
               builder: (context) => TelaAdicionar(),
             ),
           );
 
-          // 
+          //verifica se chegou algum dado//
           if (novaTarefa != null) {
             setState(() {
               tarefas.add({

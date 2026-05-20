@@ -11,7 +11,9 @@ class _TelaAdicionarState extends State<TelaAdicionar> {
   DateTime? dataSelecionada;
 
   @override
+  //chamado quando a tela fecha ou sai//
   void dispose() {
+    //limpa o controller pra liberar memoria//
     controller.dispose();
     super.dispose();
   }
@@ -23,8 +25,10 @@ class _TelaAdicionarState extends State<TelaAdicionar> {
         title: Text("Nova Tarefa"),
       ),
       body: Padding(
+        //16px de cada lado da tela//
         padding: EdgeInsets.all(16),
         child: Column(
+        //alinhamento horizontal//
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
 
@@ -35,7 +39,7 @@ class _TelaAdicionarState extends State<TelaAdicionar> {
                 border: OutlineInputBorder(),
               ),
             ),
-
+            //cria um espaço vertical de 20px//
             SizedBox(height: 20),
 
             ElevatedButton(
