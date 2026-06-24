@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'tela_adicionar.dart';
+import 'tela_estatisticas.dart';
 
 
 class TelaAgenda extends StatefulWidget {
@@ -14,10 +15,26 @@ class _TelaAgendaState extends State<TelaAgenda> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Minha Agenda"),
-        centerTitle: true,   
-      ),
-      
+  title: Text("Minha Agenda"),
+  centerTitle: true,
+
+  actions: [
+    IconButton(
+      icon: Icon(Icons.bar_chart),
+      tooltip: "Estatísticas",
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TelaEstatisticas(
+              tarefas: tarefas,
+            ),
+          ),
+        );
+      },
+    ),
+  ],
+),
       body: tarefas.isEmpty
           ? Center(
               child: Text(
