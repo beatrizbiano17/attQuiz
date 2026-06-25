@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'tela_adicionar.dart';
 import 'tela_estatisticas.dart';
-
+import 'tela_editar.dart';
 
 class TelaAgenda extends StatefulWidget {
   @override
@@ -53,8 +53,26 @@ class _TelaAgendaState extends State<TelaAgenda> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: ListTile(
-                    
+
+                 child: ListTile(
+                  onTap: () async {
+                    final tarefaEditada = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TelaEditar(
+                          tarefa: tarefas[index],
+                        ),
+                      ),
+                    );
+
+                    if (tarefaEditada != null) {
+                      setState(() {
+                        tarefas[index]["titulo"] = tarefaEditada["titulo"];
+                        tarefas[index]["data"] = tarefaEditada["data"];
+                });
+              }
+            },
+                              
                
                     leading: Checkbox(
                       value: tarefa["concluida"] ?? false,
