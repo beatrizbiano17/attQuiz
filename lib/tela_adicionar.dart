@@ -6,14 +6,11 @@ class TelaAdicionar extends StatefulWidget {
 }
 
 class _TelaAdicionarState extends State<TelaAdicionar> {
-
   final TextEditingController controller = TextEditingController();
   DateTime? dataSelecionada;
 
   @override
-  //chamado quando a tela fecha ou sai//
   void dispose() {
-    //limpa o controller pra liberar memoria//
     controller.dispose();
     super.dispose();
   }
@@ -21,29 +18,54 @@ class _TelaAdicionarState extends State<TelaAdicionar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFEAF3FF),
+
       appBar: AppBar(
-        title: Text("Nova Tarefa"),
+        title: Text(
+          "Nova Tarefa",
+          style: TextStyle(
+            color: Colors.blueGrey[900],
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.blueGrey[900]),
       ),
+
       body: Padding(
-        //16px de cada lado da tela//
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.fromLTRB(20, 40, 20, 20), // 🔥 ajustado pra subir conteúdo
         child: Column(
-        //alinhamento horizontal//
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
 
+            // 📝 CAMPO DE TEXTO
             TextField(
               controller: controller,
               decoration: InputDecoration(
                 labelText: "Digite a tarefa",
-                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
-            //cria um espaço vertical de 20px//
-            SizedBox(height: 20),
 
-            ElevatedButton(
-              child: Text("Selecionar data"),
+            SizedBox(height: 15),
+
+            // 📅 BOTÃO DATA
+            ElevatedButton.icon(
+              icon: Icon(Icons.calendar_today),
+              label: Text("Selecionar data"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF6FA8DC),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 14),
+              ),
               onPressed: () async {
                 final DateTime? picked = await showDatePicker(
                   context: context,
@@ -62,16 +84,35 @@ class _TelaAdicionarState extends State<TelaAdicionar> {
 
             SizedBox(height: 10),
 
-            Text(
-              dataSelecionada == null
-                  ? "Nenhuma data escolhida"
-                  : "Data: ${dataSelecionada!.day}/${dataSelecionada!.month}/${dataSelecionada!.year}",
-            ),
+            // ✨ ANIMAÇÃO (APARECE SÓ SE TIVER DATA)
+            if (dataSelecionada != null)
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 400),
+                transitionBuilder: (child, animation) =>
+                    FadeTransition(opacity: animation, child: child),
+                child: Text(
+                  "Data: ${dataSelecionada!.day}/${dataSelecionada!.month}/${dataSelecionada!.year}",
+                  key: ValueKey(dataSelecionada),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.blueGrey[700],
+                  ),
+                ),
+              ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 15),
 
+            // 💾 BOTÃO SALVAR
             ElevatedButton(
               child: Text("Salvar"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF6FA8DC),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 14),
+              ),
               onPressed: () {
                 if (controller.text.trim().isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -85,7 +126,7 @@ class _TelaAdicionarState extends State<TelaAdicionar> {
                   "data": dataSelecionada
                 });
               },
-            )
+            ),
           ],
         ),
       ),
